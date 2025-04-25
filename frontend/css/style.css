@@ -1,0 +1,26 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body {
+  background-color: #0099fe;
+  color: #333;
+  font-size: 16px;
+  line-height: 1.5;
+}
+main {
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #f0f0f0;
+  width: 90%;
+  margin: 40 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.add-form {
+  display: flex;
+  margin-bottom: 50px;
+  gap: 15px;
+  width: 100%;
+}

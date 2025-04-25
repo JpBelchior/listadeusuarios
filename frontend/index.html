@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <title>Lista de Usuarios</title>
+  </head>
+  <body>
+    <main>
+      <form class="add-form">
+        <input type="text" placeholder="Adicionar usuario" class="input-user" />
+        <button type="button">Adicionar</button>
+      </form>
+
+      <table>
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>password</th>
+            <th>Criado em</th>
+            <th>Sexo</th>
+            <th>Açoes</th>
+          </tr>
+          <tbody>
+            <tr>
+                <td>  Username</td>
+                <td>  4as4asf</td>
+                <td>  2023-10-01</td>
+                <td> <select >
+                  <option value="M">Masculino</option>
+                  <option value="F">Feminino</option>
+                  <option value="O">Outro</option>
+                </select></td>
+                <td> <button class="btn-action"><span class="materials-symbols-outlined"> edit</span></button>
+                  <button class="btn-action">delete</button></td>
+                </td>
+                
+            </tr>
+          </tbody>
+        </thead>
+      </table>
+    </main>
+
+    <script src="./js/script.js"></script>
+  </body>
+</html>
