@@ -8,36 +8,47 @@
   </head>
   <body>
     <main>
+      <h1> Cadastro de Usuários</h1>
       <form class="add-form">
-        <input type="text" placeholder="Adicionar usuario" class="input-user" />
-        <button type="button">Adicionar</button>
+        <input type="text" name="username" placeholder="Adicionar usuario" class="input-user" />
+        <input type ="password" name="password" placeholder="Adicionar senha" class="input-user" />
+        <select class="esc_sex" name="gender">
+          <option value="Masculino">Masculino</option>
+          <option value="Feminino">Feminino</option>
+          <option value="Outro">Outro</option>
+        </select>
+        <button type="submit" class="adc">Adicionar</button>
       </form>
 
       <table>
         <thead>
           <tr>
             <th>User</th>
-            <th>password</th>
+            <!-- <th>password</th> -->
             <th>Criado em</th>
             <th>Sexo</th>
             <th>Açoes</th>
           </tr>
           <tbody>
+          <!--
+         ''
             <tr>
                 <td>  Username</td>
                 <td>  4as4asf</td>
                 <td>  2023-10-01</td>
-                <td> <select >
-                  <option value="M">Masculino</option>
-                  <option value="F">Feminino</option>
-                  <option value="O">Outro</option>
+                <td> <select class="sexo" >
+                  <option value="Masculino">Masculino</option>
+                  <option value="Feminino">Feminino</option>
+                  <option value="Outro">Outro</option>
                 </select></td>
                 <td> <button class="btn-action"><span class="materials-symbols-outlined"> edit</span></button>
                   <button class="btn-action">delete</button></td>
                 </td>
                 
             </tr>
-          </tbody>
+          
+          -->
+        </tbody>
         </thead>
       </table>
     </main>

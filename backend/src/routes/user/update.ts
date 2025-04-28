@@ -6,6 +6,7 @@ const routerUpdate = express.Router();
 routerUpdate.put(
   "/:id",
   userMiddleware.validateUserUsername,
+  userMiddleware.validateUserGender,
   userControllers.updateUser
 );
 

@@ -37,7 +37,6 @@ const createUser = async (user: User) => {
   ]);
 
   return {
-    id: (createdUser as any).insertId,
     username,
     gender,
     created_at: date,
@@ -53,13 +52,14 @@ const deleteUser = async (id: number) => {
   };
 };
 
-const updateUser = async (id: number, username: string) => {
-  const query = "UPDATE users SET username = ? WHERE id = ?";
-  const [updatedUser] = await connectDB.execute(query, [username, id]);
+const updateUser = async (id: number, username: string, gender: string) => {
+  const query = "UPDATE users SET username = ? , gender =? WHERE id = ?";
+  const [updatedUser] = await connectDB.execute(query, [username, gender, id]);
 
   return {
     id,
     username,
+    gender,
     message: `Usuário com id ${id} atualizado para ${username}`,
   };
 };

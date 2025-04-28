@@ -6,7 +6,11 @@ const validateUserUsername = (
   next: NextFunction
 ) => {
   const { body } = req;
-  if (body.username === undefined || body.username === "") {
+  if (
+    body.username === undefined ||
+    body.username === "" ||
+    body.username.trim() === ""
+  ) {
     res.status(400).json({ message: "O campo username é obrigatório" });
     return;
   }
@@ -26,5 +30,21 @@ const validateUserPassword = (
 
   next();
 };
+const validateUserGender = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { body } = req;
+  if (body.gender === undefined || body.gener === "") {
+    res.status(400).json({ message: "O campo gender é obrigatório" });
+    return;
+  }
+  next();
+};
 
-export default { validateUserPassword, validateUserUsername };
+export default {
+  validateUserPassword,
+  validateUserUsername,
+  validateUserGender,
+};

@@ -68,16 +68,16 @@ const deleteUser = async (req: Request, res: Response): Promise<void> => {
     }
   }
 };
-// controllers/userController.ts
 
 const updateUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const { username } = req.body;
+    const { username, gender } = req.body;
 
     const updatedUser = await userModel.updateUser(
       parseInt(id),
-      req.body.username
+      req.body.username,
+      req.body.gender
     );
 
     res.status(200).json(updatedUser);
