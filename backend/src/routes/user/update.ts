@@ -7,6 +7,7 @@ routerUpdate.put(
   "/:id",
   userMiddleware.validateUserUsername,
   userMiddleware.validateUserGender,
+  userMiddleware.validateUserId,
   userControllers.updateUser
 );
 

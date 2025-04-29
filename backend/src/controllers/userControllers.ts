@@ -50,12 +50,6 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
 const deleteUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.body;
-
-    if (!id) {
-      res.status(400).json({ message: "Id é obrigatório." });
-      return;
-    }
-
     const result = await userModel.deleteUser(parseInt(id));
     res.status(200).json(result);
   } catch (error) {

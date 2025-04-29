@@ -1,5 +1,18 @@
 import { Request, Response, NextFunction } from "express";
 
+const validateUserId = (req: Request, res: Response, next: NextFunction) => {
+  const { id } = req.params;
+  const { body } = req;
+  if (
+    (id === undefined || id === "") &&
+    (body.id === undefined || body.id === "")
+  ) {
+    res.status(400).json({ message: "O campo id é obrigatório" });
+    return;
+  }
+  next();
+};
+
 const validateUserUsername = (
   req: Request,
   res: Response,
@@ -47,4 +60,5 @@ export default {
   validateUserPassword,
   validateUserUsername,
   validateUserGender,
+  validateUserId,
 };
