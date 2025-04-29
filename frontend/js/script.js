@@ -1,14 +1,36 @@
+// Importando a biblioteca axios para fazer requisições HTTP
+// Importando a biblioteca axios para fazer requisições HTTP
+
+const api = axios.create({
+  baseURL: "http://localhost:3000",
+  timeout: 5000,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+const fetchUserAxios = async () => {
+  try {
+    const response = await api.get("/user");
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao buscar usuários:", error);
+    return [];
+  }
+};
+
 const tbody = document.querySelector("tbody");
 const createForm = document.querySelector(".add-form");
 
 let currentEditId = null; // Variável para armazenar o ID do usuário em edição
 
-const fetchUser = async () => {
-  const response = await fetch("http://localhost:3000/user");
-  const users = await response.json();
-  console.log(users);
-  return users;
-};
+// const fetchUser = async () => {
+//   const response = await fetch("http://localhost:3000/user");
+//   const users = await response.json();
+//   console.log(users);
+//   return users;
+// };
 
 const formtDate = (dateUTC) => {
   const options = {
@@ -79,7 +101,7 @@ const createrowUser = (user) => {
     const confirmed = confirm("Tem certeza que deseja deletar este usuário?");
 
     if (confirmed) {
-      deleteUser(id);
+      deleteUserAxios(id);
     }
   });
 
@@ -106,39 +128,59 @@ const createrowUser = (user) => {
   return tr;
 };
 
-const updateUser = async ({ id, username, gender }) => {
+const updateUserAxios = async ({ id, username, gender }) => {
   try {
-    await fetch(`http://localhost:3000/user/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id, username, gender }),
-    });
+    await api.put(`/user/${id}`, { username, gender });
     loadUser();
   } catch (error) {
     console.error("Erro ao atualizar usuário:", error);
   }
 };
 
-const deleteUser = async (id) => {
+// const updateUser = async ({ id, username, gender }) => {
+//   try {
+//     await fetch(`http://localhost:3000/user/${id}`, {
+//       method: "PUT",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({ id, username, gender }),
+//     });
+//     loadUser();
+//   } catch (error) {
+//     console.error("Erro ao atualizar usuário:", error);
+//   }
+// };
+
+const deleteUserAxios = async (id) => {
+  id = parseInt(id); // Converte o id para um número inteiro
   try {
     console.log("Deletando usuário com id:", id);
-    await fetch(`http://localhost:3000/user/  `, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id }), // agora mandando o id no body
-    });
+    await api.delete(`/user`, { data: { id } });
     loadUser();
   } catch (error) {
     console.error("Erro ao deletar usuário:", error);
   }
 };
 
+// const deleteUser = async (id) => {
+//   try {
+//     console.log("Deletando usuário com id:", id);
+//     await fetch(`http://localhost:3000/user/  `, {
+//       method: "DELETE",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({ id }), // agora mandando o id no body
+//     });
+//     loadUser();
+//   } catch (error) {
+//     console.error("Erro ao deletar usuário:", error);
+//   }
+// };
+
 const loadUser = async () => {
-  const users = await fetchUser();
+  const users = await fetchUserAxios();
   tbody.innerHTML = ""; // Limpa o tbody antes de adicionar os novos usuários
   users.forEach((user) => {
     const row = createrowUser(user);
@@ -146,7 +188,7 @@ const loadUser = async () => {
   });
 };
 
-const addUser = async (event) => {
+const addUserAxios = async (event) => {
   event.preventDefault();
 
   const user = {
@@ -156,25 +198,44 @@ const addUser = async (event) => {
   };
 
   try {
-    const response = await fetch("http://localhost:3000/user", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
-    });
-
-    if (!response.ok) {
-      throw new Error("Erro ao cadastrar usuário");
-    }
-
+    await api.post("/user", user);
     console.log("Usuário cadastrado com sucesso!");
-    event.target.reset(); // limpa os campos do formulário
-    loadUser(); // Atualiza a lista de usuários após o cadastro
+    event.target.reset();
+    loadUser();
   } catch (error) {
-    console.error("Erro:", error);
+    console.error("Erro:", error.response?.data || error.message);
   }
 };
+
+// const addUser = async (event) => {
+//   event.preventDefault();
+
+//   const user = {
+//     username: event.target.username.value,
+//     password: event.target.password.value,
+//     gender: event.target.gender.value,
+//   };
+
+//   try {
+//     const response = await fetch("http://localhost:3000/user", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(user),
+//     });
+
+//     if (!response.ok) {
+//       throw new Error("Erro ao cadastrar usuário");
+//     }
+
+//     console.log("Usuário cadastrado com sucesso!");
+//     event.target.reset(); // limpa os campos do formulário
+//     loadUser(); // Atualiza a lista de usuários após o cadastro
+//   } catch (error) {
+//     console.error("Erro:", error);
+//   }
+// };
 
 document.addEventListener("DOMContentLoaded", () => {
   // Aguarda o carregamento do HTML
@@ -213,7 +274,7 @@ document.addEventListener("DOMContentLoaded", () => {
       gender,
     });
     if (currentEditId) {
-      updateUser({
+      updateUserAxios({
         id: currentEditId,
         username: username,
         gender: gender,
@@ -225,4 +286,4 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 loadUser(); // Carrega os usuários ao iniciar a página
-createForm.addEventListener("submit", addUser);
+createForm.addEventListener("submit", addUserAxios);
