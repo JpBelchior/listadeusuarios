@@ -201,9 +201,13 @@ const addUserAxios = async (event) => {
     await api.post("/user", user);
     console.log("Usuário cadastrado com sucesso!");
     event.target.reset();
+    showMessage("Usuário cadastrado com sucesso!", "success");
     loadUser();
   } catch (error) {
     console.error("Erro:", error.response?.data || error.message);
+    const errorMessage =
+      error.response?.data?.message || "Erro ao cadastrar usuário";
+    showMessage(errorMessage, "error");
   }
 };
 
@@ -284,6 +288,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+const showMessage = (message, type = "error") => {
+  const messageBox = document.querySelector(".message-box");
+
+  // Limpar classes anteriores
+  messageBox.classList.remove("error", "success");
+
+  // Definir conteúdo e classe
+  messageBox.textContent = message;
+  messageBox.classList.add(type);
+  messageBox.classList.add("visible");
+
+  // Animar
+  messageBox.style.animation = "fadeIn 0.3s ease";
+
+  // Remover após 5 segundos
+  setTimeout(() => {
+    messageBox.classList.remove("visible");
+    messageBox.textContent = "";
+  }, 3000);
+};
 
 loadUser(); // Carrega os usuários ao iniciar a página
 createForm.addEventListener("submit", addUserAxios);

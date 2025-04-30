@@ -349,3 +349,45 @@ tr:hover td {
     padding: 20px;
   }
 }
+
+.message-box {
+  width: 80%;
+  margin: 10px auto;
+  padding: 10px;
+  border-radius: var(--border-radius);
+  text-align: center;
+  font-weight: 500;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.message-box.visible {
+  opacity: 1;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.message-box.error {
+  color: var(--danger-color);
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.message-box.success {
+  color: var(--success-color);
+  background-color: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

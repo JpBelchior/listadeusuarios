@@ -43,7 +43,7 @@ const validateUserUsernameExists = async (
     const users = await userModel.getUserByUsername(body.username);
 
     // Verificar se o array de usuários tem pelo menos um elemento
-    if (Array.isArray(users) && users.length > 0) {
+    if (users) {
       res.status(400).json({ message: "Esse username já existe" });
       return;
     }
