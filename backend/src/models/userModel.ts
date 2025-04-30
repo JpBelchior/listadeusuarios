@@ -64,10 +64,22 @@ const updateUser = async (id: number, username: string, gender: string) => {
   };
 };
 
+const getUserByUsername = async (username: string) => {
+  try {
+    const query = "SELECT * FROM users WHERE username = ?";
+    const [rows]: any = await connectDB.execute(query, [username]);
+    return rows[0]; // Retorna o primeiro usuário encontrado
+  } catch (error) {
+    console.error("Erro ao buscar usuário por username:", error);
+    throw error;
+  }
+};
+
 export default {
   getAll,
   getUserById,
   createUser,
   deleteUser,
   updateUser,
+  getUserByUsername,
 };

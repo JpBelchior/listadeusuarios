@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 
+import userModel from "../models/userModel";
+
 const validateUserId = (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
   const { body } = req;
@@ -28,6 +30,31 @@ const validateUserUsername = (
     return;
   }
   next();
+};
+
+const validateUserUsernameExists = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { body } = req;
+
+  try {
+    const users = await userModel.getUserByUsername(body.username);
+
+    // Verificar se o array de usuários tem pelo menos um elemento
+    if (Array.isArray(users) && users.length > 0) {
+      res.status(400).json({ message: "Esse username já existe" });
+      return;
+    }
+
+    next();
+  } catch (error) {
+    console.error("Erro ao verificar username:", error);
+    res
+      .status(500)
+      .json({ message: "Erro ao verificar disponibilidade do username" });
+  }
 };
 
 const validateUserPassword = (
@@ -61,4 +88,5 @@ export default {
   validateUserUsername,
   validateUserGender,
   validateUserId,
+  validateUserUsernameExists,
 };
