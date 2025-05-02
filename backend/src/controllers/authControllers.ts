@@ -13,7 +13,7 @@ const login = async (req: Request, res: Response): Promise<void> => {
     // Verificar se o usuário existe
     const users = await userModel.getUserByUsername(username);
 
-    if (Array.isArray(users) && users.length > 0) {
+    if (!users) {
       res.status(401).json({ message: "Credenciais inválidas" });
       return;
     }

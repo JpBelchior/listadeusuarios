@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <title>Login</title>
+  </head>
+  <body>
+    <main>
+      <h1>Login</h1>
+      <form class="login-form">
+        <div class="label">
+          <label class="nomes" for="username">Usuário:</label>
+        </div>
+        <input
+          type="text"
+          name="username"
+          placeholder="Nome de usuário"
+          class="input-user"
+          required
+        />
+        <div class="label">
+          <label class="nomes" for="password">Senha:</label>
+        </div>
+        <input
+          type="password"
+          name="password"
+          placeholder="Senha do usuário"
+          class="input-user"
+          required
+        />
+        <button type="submit" class="adc">Entrar</button>
+      </form>
+      <div class="message-box"></div>
+      <p class="register-link">
+        Não tem uma conta? <a href="index.html">Cadastre-se</a>
+      </p>
+      <div class="message"></div>
+      <div class="footer">
+        <p class="legenda">© 2025 Listagem - você é digno do acesso?</p>
+      </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./js/login.js"></script>
+  </body>
+</html>
