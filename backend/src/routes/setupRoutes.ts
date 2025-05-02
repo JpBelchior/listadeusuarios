@@ -6,6 +6,9 @@ import usersPostRoute from "./user/post";
 import usersGetRoute from "./user/get";
 import usersPutRoute from "./user/update";
 
+import authGetRoute from "./auth/get";
+import authPostRoute from "./auth/post";
+
 function setupUserRoutes(app: Express) {
   const userRouter = ExpressRouter();
 
@@ -16,6 +19,15 @@ function setupUserRoutes(app: Express) {
   app.use("/user", userRouter);
 }
 
+function setupAuthRoutes(app: Express) {
+  const authRouter = ExpressRouter();
+
+  authRouter.use(authPostRoute);
+  authRouter.use(authGetRoute);
+  app.use("/auth", authRouter);
+}
+
 export function routerSetup(app: Express) {
   setupUserRoutes(app);
+  setupAuthRoutes(app);
 }
