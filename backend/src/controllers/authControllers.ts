@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import userModel from "../models/userModel";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-
+import emailService from "../service/emailService";
 const JWT_SECRET = process.env.JWT_SECRET || "meuSegredoJWT"; // Use uma variável de ambiente em produção
 
 // Login de usuário
@@ -74,6 +74,73 @@ const getAuthUser = async (req: Request, res: Response): Promise<void> => {
     console.error("Erro ao obter usuário autenticado:", error);
     res.status(500).json({ message: "Erro no servidor" });
   }
+
+  const forgotPassword = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { username } = req.body;
+
+      if (!username) {
+        res.status(400).json({ message: "Nome de usuário é obrigatório" });
+        return;
+      }
+
+      // Verificar se o usuário existe
+      const user = await userModel.getUserByUsername(username);
+
+      if (!user) {
+        // Por segurança, sempre retorna sucesso
+        res.status(200).json({
+          message:
+            "Se o usuário existir, as instruções foram enviadas por email.",
+        });
+        return;
+      }
+
+      if (!user.email) {
+        console.log(`Usuário ${username} não tem email cadastrado`);
+        res.status(200).json({
+          message:
+            "Se o usuário existir, as instruções foram enviadas por email.",
+        });
+        return;
+      }
+
+      // Gerar token de recuperação
+      const resetToken = jwt.sign(
+        {
+          userId: user.id,
+          email: user.email,
+          timestamp: Date.now(),
+        },
+        JWT_SECRET + user.password, // Inclui senha atual na chave
+        { expiresIn: "1h" }
+      );
+
+      // Enviar email
+      const emailSent = await emailService.sendPasswordResetEmail(
+        user.email,
+        user.username,
+        resetToken
+      );
+
+      if (emailSent) {
+        console.log(`✅ Email de recuperação enviado para ${user.email}`);
+      } else {
+        console.log(`❌ Falha ao enviar email para ${user.email}`);
+      }
+
+      // Sempre retorna sucesso por segurança
+      res.status(200).json({
+        message:
+          "Se o usuário existir, as instruções foram enviadas por email.",
+        // Para desenvolvimento, mostre se o email foi enviado:
+        emailSent: emailSent, // Remova em produção
+      });
+    } catch (error) {
+      console.error("Erro na recuperação de senha:", error);
+      res.status(500).json({ message: "Erro no servidor" });
+    }
+  };
 };
 
 export default {
