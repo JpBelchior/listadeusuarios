@@ -77,6 +77,21 @@ const getUserByUsername = async (username: string) => {
   }
 };
 
+const updateUserPassword = async (id: number, hashedPassword: string) => {
+  try {
+    const query = "UPDATE users SET password = ? WHERE id = ?";
+    const [result] = await connectDB.execute(query, [hashedPassword, id]);
+
+    return {
+      id,
+      message: `Senha atualizada com sucesso para usuário ID ${id}`,
+    };
+  } catch (error) {
+    console.error("Erro ao atualizar senha:", error);
+    throw error;
+  }
+};
+
 export default {
   getAll,
   getUserById,
@@ -84,4 +99,5 @@ export default {
   deleteUser,
   updateUser,
   getUserByUsername,
+  updateUserPassword,
 };
