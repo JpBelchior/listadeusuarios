@@ -23,7 +23,7 @@ class EmailService {
     username: string,
     resetToken: string
   ) {
-    const resetUrl = `${process.env.FRONTEND_URL}/reset-password.html?token=${resetToken}`;
+    const resetUrl = `http://127.0.0.1:5500/frontend/src/reset-password.html?token=${resetToken}`;
 
     const mailOptions = {
       from: process.env.EMAIL_FROM,
