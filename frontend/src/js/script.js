@@ -229,6 +229,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const user = {
       username: event.target.username.value,
       password: event.target.password.value,
+      email: event.target.email.value,
       gender: event.target.gender.value,
     };
 

@@ -76,7 +76,7 @@ const validateUserGender = (
   next: NextFunction
 ) => {
   const { body } = req;
-  if (body.gender === undefined || body.gener === "") {
+  if (body.gender === undefined || body.gender === "") {
     res.status(400).json({ message: "O campo gender é obrigatório" });
     return;
   }

@@ -11,21 +11,27 @@ const login = async (req: Request, res: Response): Promise<void> => {
     const { username, password } = req.body;
 
     // Verificar se o usuário existe
-    const users = await userModel.getUserByUsername(username);
+    const user = await userModel.getUserByUsername(username);
+    console.log("Usuário encontrado no banco:", user ? "SIM" : "NÃO");
 
-    if (!users) {
+    if (!user) {
+      console.log("❌ Usuário não encontrado");
       res.status(401).json({ message: "Credenciais inválidas" });
       return;
     }
-
-    const user = users;
 
     // Verificar senha
+
     const isMatch = await bcrypt.compare(password, user.password);
+    console.log("Senhas coincidem:", isMatch ? "SIM" : "NÃO");
+
     if (!isMatch) {
+      console.log("❌ Senha incorreta");
       res.status(401).json({ message: "Credenciais inválidas" });
       return;
     }
+
+    console.log("✅ Login bem-sucedido!");
 
     // Criar e assinar o token JWT
     const payload = {
