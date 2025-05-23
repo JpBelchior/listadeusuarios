@@ -112,11 +112,11 @@ const forgotPassword = async (req: Request, res: Response): Promise<void> => {
         email: user.email,
         timestamp: Date.now(),
       },
-      JWT_SECRET + user.password, // Inclui senha atual na chave
+      JWT_SECRET + user.password, // Usar a senha como parte da chave
       { expiresIn: "1h" }
     );
 
-    // Enviar email
+    // Enviando o email de recuperação
     const emailSent = await emailService.sendPasswordResetEmail(
       user.email,
       user.username,
@@ -129,7 +129,6 @@ const forgotPassword = async (req: Request, res: Response): Promise<void> => {
       console.log(`❌ Falha ao enviar email para ${user.email}`);
     }
 
-    // Sempre retorna sucesso por segurança
     res.status(200).json({
       message: "Se o usuário existir, as instruções foram enviadas por email.",
       // Para desenvolvimento, mostre se o email foi enviado:
@@ -145,7 +144,6 @@ const resetPassword = async (req: Request, res: Response): Promise<void> => {
   try {
     const { token, password } = req.body;
 
-    // Verificar se token e senha foram fornecidos
     if (!token || !password) {
       res.status(400).json({
         message: "Token e nova senha são obrigatórios",
@@ -153,7 +151,6 @@ const resetPassword = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    // Verificar se a senha tem pelo menos 6 caracteres
     if (password.length < 6) {
       res.status(400).json({
         message: "A senha deve ter pelo menos 6 caracteres",
@@ -174,7 +171,7 @@ const resetPassword = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    // Buscar o usuário no banco de dados
+    // Buscar o usuário no banco de dados através do ID do token
     const user = await userModel.getUserById(decoded.userId);
     if (!user) {
       res.status(400).json({ message: "Usuário não encontrado" });
@@ -193,7 +190,7 @@ const resetPassword = async (req: Request, res: Response): Promise<void> => {
 
     // Verificar se o token não é muito antigo (adicional de segurança)
     const tokenAge = Date.now() - decoded.timestamp;
-    const oneHour = 60 * 60 * 1000; // 1 hora em milissegundos
+    const oneHour = 60 * 60 * 1000;
 
     if (tokenAge > oneHour) {
       res.status(400).json({

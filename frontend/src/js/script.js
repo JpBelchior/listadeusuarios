@@ -277,54 +277,6 @@ document.addEventListener("DOMContentLoaded", () => {
   //   }
   // };
 
-  document.addEventListener("DOMContentLoaded", () => {
-    // Aguarda o carregamento do HTML
-    const modal = document.getElementById("editModal"); // Seleciona o elemento com o ID "editModal" (a div da modal)
-    const editForm = document.getElementById("editForm");
-    const closeBtn = document.querySelector(".close"); //querySelector retorna o primeiro elemento dentro do documento que corresponde ao seletor especificado
-    const cancelBtn = document.querySelector(".btn-cancel");
-
-    // Evento para fechar a modal
-    closeBtn.addEventListener("click", () => {
-      modal.style.display = "none";
-    });
-
-    cancelBtn.addEventListener("click", () => {
-      modal.style.display = "none";
-    });
-
-    // Fechar modal ao clicar fora dela
-    window.addEventListener("click", (event) => {
-      if (event.target === modal) {
-        modal.style.display = "none";
-      }
-    });
-
-    // Envio do formulário de edição
-    editForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-
-      console.log("Formulário enviado!");
-      const username = document.getElementById("editUsername").value;
-      const gender = document.getElementById("editGender").value;
-
-      console.log("Dados para atualização:", {
-        id: currentEditId,
-        username,
-        gender,
-      });
-      if (currentEditId) {
-        updateUserAxios({
-          id: currentEditId,
-          username: username,
-          gender: gender,
-        });
-
-        modal.style.display = "none";
-      }
-    });
-  });
-
   const showMessage = (message, type = "error") => {
     const messageBox = document.querySelector(".message-box");
 
@@ -345,6 +297,59 @@ document.addEventListener("DOMContentLoaded", () => {
       messageBox.textContent = "";
     }, 3000);
   };
+
+  const modal = document.getElementById("editModal");
+  const editForm = document.getElementById("editForm");
+  const closeBtn = document.querySelector(".close");
+  const cancelBtn = document.querySelector(".btn-cancel");
+
+  // Verificar se os elementos existem antes de adicionar eventos
+
+  if (cancelBtn) {
+    cancelBtn.addEventListener("click", () => {
+      modal.style.display = "none";
+      console.log("Modal fechado pelo botão Cancelar");
+    });
+  }
+
+  // Fechar modal ao clicar fora dela
+  window.addEventListener("click", (event) => {
+    if (event.target === modal) {
+      modal.style.display = "none";
+      console.log("Modal fechado clicando fora");
+    }
+  });
+
+  // Envio do formulário de edição
+  if (editForm) {
+    editForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      console.log("Formulário de edição enviado!");
+      const username = document.getElementById("editUsername").value;
+      const gender = document.getElementById("editGender").value;
+
+      console.log("Dados para atualização:", {
+        id: currentEditId,
+        username,
+        gender,
+      });
+
+      if (currentEditId) {
+        updateUserAxios({
+          id: currentEditId,
+          username: username,
+          gender: gender,
+        });
+
+        modal.style.display = "none";
+        showMessage("Usuário atualizado com sucesso!", "success");
+      } else {
+        console.error("ID do usuário não definido!");
+        showMessage("Erro: ID do usuário não encontrado", "error");
+      }
+    });
+  }
 
   loadUser(); // Carrega os usuários ao iniciar a página
   createForm.addEventListener("submit", addUserAxios);
