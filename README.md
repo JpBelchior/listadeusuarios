@@ -251,9 +251,9 @@ Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalh
 
 ## 📞 Contato
 
-- **Desenvolvedor**: [Seu Nome]
-- **Email**: [seu-email@exemplo.com]
-- **GitHub**: [seu-github]
+- **Desenvolvedor**: [João-Belchior]
+- **Email**: [joaopedrobelchior@hotmail.com]
+- **GitHub**: [jpbelchior]
 
 ---
 
