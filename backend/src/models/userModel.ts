@@ -23,21 +23,23 @@ const getUserById = async (id: number) => {
 };
 
 const createUser = async (user: User) => {
-  const { username, password, gender } = user;
+  const { username, password, email, gender } = user;
   const date = new Date(Date.now()).toUTCString();
 
   const query =
-    "INSERT INTO users (username, password, gender,created_at) VALUES (?, ?, ?,?)";
+    "INSERT INTO users (username, password, email, gender,created_at) VALUES (?, ?, ?,?,?)";
 
   const [createdUser] = await connectDB.execute(query, [
     username,
     password,
+    email,
     gender,
     date,
   ]);
 
   return {
     username,
+    email,
     gender,
     created_at: date,
     message: `Usuário ${username} criado com sucesso!`,

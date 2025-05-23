@@ -113,11 +113,12 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const createrowUser = (user) => {
-    const { id, username, created_at, gender } = user;
+    const { id, username, email, created_at, gender } = user;
 
     const tr = createElement("tr");
     const tdUsername = createElement("td", username);
     //const tdpassword = createElement("td", password);
+    const tdEmail = createElement("td", email);
     const tdCreatedAt = createElement("td", formtDate(created_at));
 
     const tdGender = createElement("td", gender);
@@ -151,6 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
     tdaction.appendChild(deleteButton);
 
     tr.appendChild(tdUsername);
+    tr.appendChild(tdEmail);
     //tr.appendChild(tdpassword);
     tr.appendChild(tdCreatedAt);
     tr.appendChild(tdGender);

@@ -26,7 +26,7 @@ const getUserById = async (id: number) => {
 
 const createUser = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { username, password, gender } = req.body;
+    const { username, password, email, gender } = req.body;
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -34,6 +34,7 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
     const newUser: User = {
       username,
       password: hashedPassword,
+      email,
       gender,
       created_at: new Date(Date.now()).toUTCString(),
       id: 0, // será sobrescrito pelo BD
